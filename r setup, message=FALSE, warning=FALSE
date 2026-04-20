@@ -1,0 +1,28 @@
+# Load required libraries
+library(tidyverse)
+library(lme4)
+library(ggsci)
+
+# Set seed for reproducibility
+set.seed(42)
+
+# Generate mock data for 15 astronauts
+astronaut_ids <- paste0("Astro_", 1:15)
+timepoints <- c("1_Pre_Flight", "2_In_Flight", "3_Post_Flight")
+
+space_data <- expand_grid(ID = astronaut_ids, Time = timepoints) %>%
+  mutate(
+    # Simulate baseline SBP around 120 mmHg
+    Baseline_SBP = rep(rnorm(15, mean = 120, sd = 8), each = 3),
+    # Apply physiological shifts: Drop during flight, partial recovery post-flight
+    Shift = case_when(
+      Time == "1_Pre_Flight" ~ 0,
+      Time == "2_In_Flight" ~ rnorm(45, mean = -12, sd = 4),
+      Time == "3_Post_Flight" ~ rnorm(45, mean = -5, sd = 5)
+    ),
+    SBP = Baseline_SBP + Shift
+  ) %>%
+  select(ID, Time, SBP)
+
+# View the first few rows
+head(space_data)
