@@ -1,0 +1,6 @@
+# Fit the linear mixed-effects model
+# SBP is predicted by Time, with a random intercept for each astronaut ID
+model <- lmer(SBP ~ Time + (1 | ID), data = space_data)
+
+# Display a summary of the fixed effects (the impact of the time points)
+summary(model)$coefficients
