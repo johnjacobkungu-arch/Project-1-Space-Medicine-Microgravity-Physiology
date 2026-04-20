@@ -1,0 +1,6 @@
+# Install packages if you haven't already: install.packages(c("tidyverse", "lme4", "gtsummary", "ggsci"))
+
+library(tidyverse)  # For data wrangling and ggplot2
+library(lme4)       # For mixed-effects modeling (handling repeated measures on the same astronauts)
+library(gtsummary)  # For creating publication-ready clinical tables
+library(ggsci)      # For scientific color palettes (makes plots look like journal articles)
