@@ -1,0 +1,28 @@
+# Calculate summary statistics for the trend line
+summary_data <- space_data %>%
+  group_by(Time) %>%
+  summarize(Mean_SBP = mean(SBP), .groups = 'drop')
+
+# Plotting the physiological trends
+ggplot() +
+  # Individual trajectories
+  geom_line(data = space_data, aes(x = Time, y = SBP, group = ID), 
+            color = "gray70", alpha = 0.6, size = 0.8) +
+  geom_point(data = space_data, aes(x = Time, y = SBP, color = Time), 
+             alpha = 0.6, size = 2) +
+  # Group mean trajectory
+  geom_line(data = summary_data, aes(x = Time, y = Mean_SBP, group = 1), 
+            color = "black", size = 1.5) +
+  geom_point(data = summary_data, aes(x = Time, y = Mean_SBP), 
+             color = "black", size = 4, shape = 18) +
+  # Formatting
+  scale_color_nejm() + # New England Journal of Medicine color palette
+  theme_minimal() +
+  labs(
+    title = "Systolic Blood Pressure Shifts Across Mission Phases",
+    subtitle = "Individual trajectories (gray) vs. Group Mean (black)",
+    x = "Mission Phase",
+    y = "Systolic Blood Pressure (mmHg)"
+  ) +
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold", size = 14))
